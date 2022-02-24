@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import './ProductListPage.css';
-import PaginationBtns from "./PaginationBtns.js";
+import PaginationBtns from '../../components/PaginationBtns'
 
 function ProductList (){
 

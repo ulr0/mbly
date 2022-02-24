@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import './App.css';
 import HomeNav from './components/Navbar.js';
-import SignupPage from './components/SignupPage.js';
-import ProductList from './components/ProductListPage.js';
-import LoginPage from './components/LoginPage.js';
+import SignupPage from './pages/Signup/SignupPage.js';
+import ProductList from './pages/ProductList/ProductListPage.js';
+import LoginPage from './pages/Login/LoginPage.js';
 import KakaoLogin from './components/KakaoLogin.js';
-import AdminProductList from './components/AdminProductList.js';
-import ProductRegistration from './components/ProductRegistration.js';
+import AdminProductList from './pages/AdminProductList/AdminProductList.js';
+import ProductRegistration from './pages/ProductRegistration/ProductRegistration.js';
 
 function App() {
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Table, Button } from 'react-bootstrap';
 import styled from "styled-components";
-import ProductOptionModal from "./ProductOptionModal.js";
+import ProductOptionModal from "./ProductOptionModal";
 
 
 function AdminProductList (){
@@ -88,7 +88,7 @@ function AdminProductList (){
                             </TableRow>
                         </tbody>
 
-                            <ProductOptionModal 
+                            <ProductOptionModal
                             show={ modalVisibleId === product.product_id }
                             productOptions={ productOptions }/>
 

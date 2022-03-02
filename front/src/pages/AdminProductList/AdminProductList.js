@@ -7,12 +7,14 @@ import ProductOptionModal from "./ProductOptionModal";
 
 function AdminProductList (){
 
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+
     const [products, setProducts] = useState([]);
     const [modalVisibleId, setModalVisibleId] = useState('');
     const [productOptions, setProductOptions] = useState([]);
 
     useEffect(()=>{
-        axios.get("http://localhost:8000/admin/products", {
+        axios.get(`${API_BASE_URL}/admin/products`, {
             headers : {
                 Authorization : localStorage.getItem('access_token')
             }
@@ -29,7 +31,7 @@ function AdminProductList (){
     }, []);
 
     const onClickDelete = (productId) => {
-        axios.delete("http://localhost:8000/admin/products/" + String(productId), {
+        axios.delete(`${API_BASE_URL}/admin/products` + String(productId), {
             headers : {
                 Authorization : localStorage.getItem('access_token')
             }

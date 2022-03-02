@@ -6,6 +6,8 @@ import './LoginPage.css';
 
 function LoginPage(){
 
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const history = useHistory();
@@ -21,7 +23,7 @@ function LoginPage(){
     const onClickHandler = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:8000/accounts/login", 
+        axios.post(`${API_BASE_URL}/accounts/login`, 
         { email : email, password : password })
         .then((response)=>{
             if ( response !== null && response.date !== null) {

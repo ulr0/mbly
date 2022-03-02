@@ -4,6 +4,8 @@ import './ProductListPage.css';
 import PaginationBtns from '../../components/PaginationBtns'
 
 function ProductList (){
+    
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 
     const [products, setProducts] = useState([]);
     const [pages, setPages] = useState();
@@ -18,7 +20,7 @@ function ProductList (){
         e.preventDefault();
         setCurrentPage(1);
 
-        axios.get("http://localhost:8000/products/list", { params : { page : currentPage, search_word : search } })
+        axios.get(`${API_BASE_URL}/products/list`, { params : { page : currentPage, search_word : search } })
         .then((response)=>{
             const productList = response.data.product_lists;
             setProducts(productList);
@@ -28,7 +30,7 @@ function ProductList (){
     }
 
     useEffect(()=>{
-        axios.get("http://localhost:8000/products/list", { params : { page : currentPage, search_word : search } })
+        axios.get(`${API_BASE_URL}/products/list`, { params : { page : currentPage, search_word : search } })
         .then((response)=>{
             const productList = response.data.product_lists;
             setProducts(productList);

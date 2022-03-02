@@ -7,6 +7,8 @@ import './ProductRegistration.css';
 
 function ProductRegistration(){
 
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+
     const authState = useSelector((state) => state);
 
     const [categories, setCategories] = useState([]);
@@ -15,7 +17,7 @@ function ProductRegistration(){
     const [sellers, setSellers] = useState([]);
 
     useEffect(()=>{
-        axios.get('http://localhost:8000/categories')
+        axios.get(`${API_BASE_URL}/categories`)
         .then((response)=>{
             if ( response != null && response.data != null ) {
                 setCategories(response.data.result)
@@ -24,7 +26,7 @@ function ProductRegistration(){
         .catch((error)=>{
             console.log(error);
         })
-        axios.get('http://localhost:8000/colors')
+        axios.get(`${API_BASE_URL}/colors`)
         .then((response)=>{
             if ( response != null && response.data != null ) {
                 setColors(response.data.result)
@@ -33,7 +35,7 @@ function ProductRegistration(){
         .catch((error)=>{
             console.log(error);
         })
-        axios.get('http://localhost:8000/sizes')
+        axios.get(`${API_BASE_URL}/sizes`)
         .then((response)=>{
             if ( response != null && response.data != null ) {
                 setSizes(response.data.result)
@@ -43,7 +45,7 @@ function ProductRegistration(){
             console.log(error);
         })
         if ( authState.account_type === 'master' ) {
-            axios.get('http://localhost:8000/sellers')
+            axios.get(`${API_BASE_URL}/sellers`)
             .then((response)=>{
                 if ( response != null && response.data != null ) {
                     setSellers(response.data.result)
@@ -183,7 +185,7 @@ function ProductRegistration(){
             formData.append('main_image', mainImg)
             Array.from(detailImgs).forEach(img=>formData.append('detail_images', img))
             
-            axios.post('http://localhost:8000/admin/products', formData, {
+            axios.post(`${API_BASE_URL}/admin/products`, formData, {
                 headers : {
                     Authorization : localStorage.getItem('access_token')
                 }

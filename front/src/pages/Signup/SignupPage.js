@@ -5,6 +5,8 @@ import axios from 'axios';
 
 function SignupPage (){
 
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
@@ -27,7 +29,7 @@ function SignupPage (){
     const onClickHandler = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:8000/accounts/signup", {
+        axios.post(`${API_BASE_URL}/accounts/signup`, {
             email : email,
             password : password,
             name : name,

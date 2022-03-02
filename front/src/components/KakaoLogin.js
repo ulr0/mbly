@@ -4,6 +4,8 @@ import axios from "axios";
 import styled from 'styled-components';
 
 function KakaoLogin(){
+
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
     const { Kakao } = window;
 
     let history = useHistory();
@@ -13,7 +15,7 @@ function KakaoLogin(){
     const kakaoLogin = () => {
         Kakao.Auth.login({
             success: function(response) {
-                axios.get('http://localhost:8000/accounts/login/kakao', 
+                axios.get(`${API_BASE_URL}/accounts/login/kakao`, 
                 { headers : { Authorization : response.access_token } })
                 .then((response)=>{
                     

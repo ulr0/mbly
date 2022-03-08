@@ -9,6 +9,7 @@ import LoginPage from './pages/Login/LoginPage.js';
 import KakaoLogin from './components/KakaoLogin.js';
 import AdminProductList from './pages/AdminProductList/AdminProductList.js';
 import ProductRegistration from './pages/ProductRegistration/ProductRegistration.js';
+import ProductDetail from './pages/ProductDetail/ProductDetail.js';
 
 function App() {
 
@@ -35,6 +36,10 @@ function App() {
 
         <Route exact path="/products/list">
           <ProductList/>
+        </Route>
+
+        <Route path="/products/:product_id">
+          <ProductDetail/>
         </Route>
 
         <Route exact path="/accounts/signup">

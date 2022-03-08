@@ -26,11 +26,13 @@ class ProductDetailView(View):
                 'price' : product_detail.price,
                 'discount_price' : product_detail.discount_price,
                 'is_sold_out' : product_detail.is_sold_out,
+                'main_image_url' : product.main_image_url,
                 'images' : [
                     image.image_url for image in product.productimage_set.all()
                 ],
                 'options' : [
                     {
+                        'id' : option.id,
                         'color' : option.color.color,
                         'size' : option.size.size,
                         'stock' : option.stock,

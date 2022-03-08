@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useHistory  } from "react-router-dom";
 import axios from "axios";
 import './ProductListPage.css';
 import PaginationBtns from '../../components/PaginationBtns'
@@ -13,6 +14,9 @@ function ProductList (){
     const limit = 8;
 
     const [search, setSearch] = useState('');
+    const history = useHistory();
+    const style = { cursor : 'pointer' }
+
     const onChangeSearch = (e) => {
         setSearch(e.target.value);
     }
@@ -37,7 +41,11 @@ function ProductList (){
             const productCounts = response.data.product_counts;
             setPages(Math.ceil(productCounts/limit));
         })
-    }, [currentPage]);
+    }, [currentPage])
+
+    const onClickProductImage = (productId) => {
+        history.push(`/products/${productId}`);
+    }
 
     return(
         <>
@@ -50,12 +58,12 @@ function ProductList (){
                 </form>
             </div>
                 {
-                    products.map((a, i)=>{
+                    products.map((product, i)=>{
                         return (
-                            <div key = {i} className="col-3">
-                                <img src={a.main_image_url} />
-                                <h6>{a.product_name}</h6>
-                                <p>{Number(a.price)}원</p>
+                            <div key={i} className="col-3">
+                                <img style={style} src={product.main_image_url} onClick={()=>{onClickProductImage(product.id)}}/>
+                                <h6>{product.product_name}</h6>
+                                <p>{Number(product.price)}원</p>
                             </div>
                         )
                     })

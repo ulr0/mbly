@@ -4,7 +4,9 @@ from django.http import JsonResponse
 from django.views import View
 
 from core.decorators import login_required
-from products.models import CartItem, CartItemList
+from products.models import CartItem, CartItemList, Product
+from accounts.models import Account
+from core.const import USER_ACCOUNT_TYPE
 
 """
 post/patch - request.body
@@ -32,25 +34,39 @@ delete - request.body
 class CartItemView(View):
     @login_required
     def post(self, request):
+        try:
+            account = request.account
+            data = json.loads(request.body)
 
-        user = request.user
-        data = json.loads(request.body)
+            account = Account.objects.get(id = account.id)
+            if account.is_deleted:
+                return JsonResponse({'message' : 'Invalid User'}, status = 401)
+            elif account.account_type_id != USER_ACCOUNT_TYPE:
+                return JsonResponse({'message' : 'Forbidden'}, status = 403)
 
-        filter_set = {
-            'user_id' : user.id,
-            'product_id' : data['product_id'],
-            'product_option_id' : data['product_option_id']
-        }
+            options = data['product_options']
+            
+            filter_set = {
+                'user_id' : account.user.id,
+                'product_id' : data['product_id']
+            }
+            
+            for option in options:
+                filter_set['product_option_id'] = option['id']
+
+                if CartItem.objects.filter(**filter_set).exists():
+                    cart = CartItem.objects.get(**filter_set)
+                    cart.quantity += option['quantity']
+                    cart.save()
+                
+                else:
+                    CartItem.objects.create(**filter_set, quantity = option['quantity'])
+
+            return JsonResponse({'message' : 'Success'}, status = 201)
         
-        if CartItem.objects.filter(**filter_set).exists():
-            cart = CartItem.objects.get(**filter_set)
-            cart.quantity += data['quantity']
-            cart.save()
-        
-        else:
-            CartItem.objects.create(**filter_set, quantity = data['quantity'])
+        except Account.DoesNotExist:
+            return JsonResponse({'message' : 'User Dose Not Exist'}, status = 400)
 
-        return JsonResponse({'message' : 'Success'}, status = 201)
 
     @login_required
     def get(self, request):

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -7,11 +8,14 @@ function ProductDetail(){
 
     const { product_id } = useParams();
     const API_BASE_URL = process.env.REACT_APP_API_ROOT;
+    const history = useHistory();
 
     const[product, setProduct] = useState({});
     const[seller, setSeller] = useState({});
     const[options, setOptions] = useState([]);
     const[images, setImages] = useState([]);
+
+    const authState = useSelector((state)=>state);
 
     useEffect(()=>{
         axios.get(`${API_BASE_URL}/products/detail/${product_id}`)
@@ -76,6 +80,32 @@ function ProductDetail(){
         let copy = [ ...selectedOptions ];
         copy.splice(index, 1);
         setSelectedOptions(copy);
+    }
+
+    const onClickCart = () => {
+        if (!selectedOptions.length) {
+            alert('상품 옵션을 선택해주세요.');
+            return ;
+        }
+        const accessToken = localStorage.getItem('access_token')
+        if (!authState.isLogin || !accessToken) {
+            if (window.confirm('로그인이 필요한 서비스입니다. 로그인하시겠습니까?')) {
+                history.push('/accounts/login')
+            }
+        } else {
+            axios.post(`${API_BASE_URL}/products/cartitems`, 
+            { product_id : product.id, product_options : selectedOptions },
+            { headers : { Authorization : accessToken } })
+            .then(()=>{
+                if (window.confirm('장바구니에 상품이 추가되었습니다. 장바구니로 이동하시겠습니까?')) {
+                    history.push('/cart')
+                }
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }
+
     }
 
     return(
@@ -160,7 +190,7 @@ function ProductDetail(){
                 <TotalPrice>{ totalPrice }원</TotalPrice>
                 
                 <hr/>
-                <CartBtn>장바구니 담기</CartBtn>
+                <CartBtn onClick={ onClickCart }>장바구니 담기</CartBtn>
 
             </ProductInfoContainer>
 

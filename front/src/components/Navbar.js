@@ -37,7 +37,7 @@ function HomeNav (){
                             ? (
                                 <Nav className="me-auto">
                                     <Nav.Link as={Link} to="/products/list">Products</Nav.Link>
-                                    <Nav.Link as={Link} to="/accounts/signup">Cart</Nav.Link>
+                                    <Nav.Link as={Link} to="/cart">Cart</Nav.Link>
                                     <Nav.Link onClick={logout}>Log Out</Nav.Link>
                                 </Nav>
                             )

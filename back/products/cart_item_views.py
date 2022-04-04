@@ -70,8 +70,9 @@ class CartItemView(View):
 
     @login_required
     def get(self, request):
-        user = request.user
-        products = CartItemList.objects.filter(user_id = user.id)
+        account = request.account
+
+        products = CartItemList.objects.filter(user_id = account.user.id)
 
         cart_items = [
             {

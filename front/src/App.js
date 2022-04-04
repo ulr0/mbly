@@ -10,6 +10,7 @@ import KakaoLogin from './components/KakaoLogin.js';
 import AdminProductList from './pages/AdminProductList/AdminProductList.js';
 import ProductRegistration from './pages/ProductRegistration/ProductRegistration.js';
 import ProductDetail from './pages/ProductDetail/ProductDetail.js';
+import Cart from './pages/Cart/Cart.js'
 
 function App() {
 
@@ -58,6 +59,10 @@ function App() {
 
         <Route exact path="/admin/products/registration"> 
           <ProductRegistration/>
+        </Route>
+
+        <Route exact path="/cart">
+          <Cart/>
         </Route>
 
       </Switch>

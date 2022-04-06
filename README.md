@@ -1,11 +1,9 @@
 ## Mbly
-<hr/>
 여러 쇼핑몰들이 입점할 수 있는 메가 쇼핑몰 웹사이트 구현
 <br/>
 <br/>
 
 ## About Project
-<hr/>
 
 Members : 1인 프로젝트
 <br/>
@@ -18,7 +16,6 @@ Developing Period : 2022.01-2022.02
 
 
 ## 구현 기능
-<hr/>
 
 ### 상품 상세 페이지 
 <img src='https://ulr0-bucket.s3.ap-northeast-2.amazonaws.com/%E1%84%89%E1%85%A1%E1%86%BC%E1%84%89%E1%85%A6.gif'/>

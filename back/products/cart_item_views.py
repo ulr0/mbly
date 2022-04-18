@@ -95,11 +95,11 @@ class CartItemView(View):
 
     @login_required
     def patch(self, request):
-        user = request.user
+        account = request.account
         data = json.loads(request.body)
         
         CartItem.objects.filter(
-            user_id = user.id, 
+            user_id = account.user.id, 
             product_id = data['product_id'], 
             product_option_id = data['product_option_id']
         ).update(

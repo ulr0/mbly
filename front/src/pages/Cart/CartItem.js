@@ -1,6 +1,9 @@
+import axios from 'axios';
 import styled from 'styled-components';
 
 function CartItem(props){
+
+    const API_BASE_URL = process.env.REACT_APP_API_ROOT;
 
     const cartItems = props.cartItems;
 
@@ -9,6 +12,48 @@ function CartItem(props){
             props.setCheckedItems([ ...props.checkedItems, { productOptionId : productOptionId, optionPrice : optionPrice }])
         } else {
             props.setCheckedItems(props.checkedItems.filter((e) => e.productOptionId !== productOptionId));
+        }
+    }
+
+    const onClickQtyMinus = (item) => {
+        if (item.quantity <= 1) {
+            alert('최소 구매 수량은 1개입니다.')
+        } else {
+            const accessToken = localStorage.getItem('access_token')
+            axios.patch(`${API_BASE_URL}/products/cartitems`, 
+            { 
+                product_id : item.product_id,
+                product_option_id : item.product_option_id,
+                quantity : item.quantity - 1
+            }, 
+            { headers : { Authorization : accessToken }})
+            .then(()=>{
+                window.location.reload();
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
+        }
+    }
+
+    const onClickQtyPlus = (item) => {
+        if (item.quantity >= 30) {
+            alert('최대 구매 수량은 30개입니다.')
+        } else {
+            const accessToken = localStorage.getItem('access_token')
+            axios.patch(`${API_BASE_URL}/products/cartitems`, 
+            { 
+                product_id : item.product_id,
+                product_option_id : item.product_option_id,
+                quantity : item.quantity + 1
+            }, 
+            { headers : { Authorization : accessToken }})
+            .then(()=>{
+                window.location.reload();
+            })
+            .catch((error)=>{
+                console.log(error);
+            })
         }
     }
 
@@ -84,9 +129,9 @@ function CartItem(props){
                                     </OptionInfoContainer>
                                     <hr/>
                                     <QuantityContainer>
-                                        <QuantityBtn>-</QuantityBtn>
+                                        <QuantityBtn onClick={()=>{ onClickQtyMinus(item) }}>-</QuantityBtn>
                                         <QuantityInput type='number' value={ item.quantity } readOnly />
-                                        <QuantityBtn>+</QuantityBtn>
+                                        <QuantityBtn onClick={()=>{ onClickQtyPlus(item) }}>+</QuantityBtn>
                                     </QuantityContainer>
                                     <OptionPriceContainer>
                                         <Price>{ optionPrice }원</Price>

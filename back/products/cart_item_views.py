@@ -8,29 +8,6 @@ from products.models import CartItem, CartItemList, Product
 from accounts.models import Account
 from core.const import USER_ACCOUNT_TYPE
 
-"""
-post/patch - request.body
-{
-    "product_id" : 3,
-    "product_option_id" : 9,
-    "quantity" : 1
-}
-
-delete - request.body
-{
-    "products" : [
-        {
-            "product_id" : 1,
-            "product_option_id" : 5
-        },
-        {
-            "product_id" : 2,
-            "product_option_id" : 7
-        }
-    ]
-}
-"""
-
 class CartItemView(View):
     @login_required
     def post(self, request):
@@ -110,15 +87,14 @@ class CartItemView(View):
 
     @login_required
     def delete(self, request):
-        user = request.user
+        account = request.account
         data = json.loads(request.body)
-        products = data['products']
+        product_option_ids = data['product_option_ids']
 
-        for product in products:
+        for product_option_id in product_option_ids:
             CartItem.objects.get(
-                user_id = user.id,
-                product_id = product['product_id'], 
-                product_option_id = product['product_option_id']
+                user_id = account.user.id,
+                product_option_id = product_option_id
                 ).delete()
 
         return JsonResponse({'message' : 'Success'}, status = 200)

@@ -29,6 +29,29 @@ function Cart(){
         })
     }, []);
 
+    const onClickDelete = () => {
+        if (checkedItems.length === 0) {
+            alert('상품을 선택해주세요.')
+        } else {
+            if (window.confirm('선택한 상품을 삭제하시겠습니까?')) {
+                const accessToken = localStorage.getItem('access_token')
+                let productOptionIds = [];
+                checkedItems.forEach(e => productOptionIds.push(e.productOptionId))
+    
+                axios.delete(`${API_BASE_URL}/products/cartitems`, 
+                { headers : { 
+                    Authorization : accessToken },
+                    data : { product_option_ids : productOptionIds }})
+                .then(()=>{
+                    window.location.reload();
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+            } 
+        }
+    }
+
     if (cartItems.length === 0){
         return (
             <NoItemContainer>
@@ -41,6 +64,9 @@ function Cart(){
             <ItemContainer>
                 <div>
                     <Title>장바구니</Title>
+                    <DeleteBtnContainer>
+                        <DeleteBtn onClick={ onClickDelete }>선택삭제</DeleteBtn>
+                    </DeleteBtnContainer>
                     <hr/>
                 </div>
 
@@ -88,4 +114,16 @@ const ItemContainer = styled.div`
 const Title = styled.h1`
     margin-top : 20px;
     display : flex;
+`
+
+const DeleteBtnContainer = styled.div`
+    display : flow-root;
+`
+
+const DeleteBtn = styled.button`
+    float : right;
+    background-color : #ffffff;
+    border : 1px solid;
+    border-radius : 6px;
+    font-size : 15px;
 `

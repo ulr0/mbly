@@ -55,7 +55,7 @@ function Cart(){
     if (cartItems.length === 0){
         return (
             <NoItemContainer>
-                <NoItemImage src='https://ulr0-bucket.s3.ap-northeast-2.amazonaws.com/pngwing.com.png'/>
+                <NoItemImage src='https://bucket-ulr0.s3.ap-northeast-2.amazonaws.com/pngwing.com+(1).png'/>
                 <p>장바구니에 상품을 담아보세요.</p>
             </NoItemContainer>
         )

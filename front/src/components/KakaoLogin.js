@@ -37,7 +37,7 @@ function KakaoLogin(){
 
     return(
         <div>
-            <KakaoImage src="https://ulr0-bucket.s3.ap-northeast-2.amazonaws.com/kakao_login.png" onClick={kakaoLogin}/>
+            <KakaoImage src="https://bucket-ulr0.s3.ap-northeast-2.amazonaws.com/kakao_login+(1).png" onClick={kakaoLogin}/>
         </div>
     )
 }
